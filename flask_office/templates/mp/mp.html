@@ -3,11 +3,27 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="static/css/mp/mp.css">
+    <link rel="stylesheet" href="static/mp/mp.css">
     <title></title>
 </head>
 <body>
-    <button class="button">Centered Button</button>
-    <p align="center">"hello"</p>
+    <div class="topnav">
+        <a class="active" href="#home">Home</a>
+        <div class="dropdown">
+            <button class="dropbtn">
+                Products
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="text_editor">Link 1</a>
+                <a href="#">Link 2</a>
+                <a href="#">Link 3</a>
+            </div>
+        </div>
+        {%if title != 'Sign In'%}
+            <button class="button" onclick="window.location.href='/login'">LogIn</button>
+        {%endif%}
+    </div>
+    {% block content %}{% endblock %}
 </body>
 </html>

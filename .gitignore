@@ -2,3 +2,6 @@
 **.sln
 **.pyproj
 **.pyproj.user
+**/venv
+**/.idea
+**/__pycache__
