@@ -8,20 +8,23 @@
 </head>
 <body>
     <div class="topnav">
-        <a class="active" href="#home">Home</a>
+        <a class="active" href="/main_page">Home</a>
         <div class="dropdown">
             <button class="dropbtn">
                 Products
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-content">
-                <a href="text_editor">Text Editor</a>
+                <a href="base_test">BaseTest</a>
                 <a href="#">Link 2</a>
                 <a href="#">Link 3</a>
             </div>
         </div>
         {%if title != 'Sign In'%}
             <button class="button" onclick="window.location.href='/login'">LogIn</button>
+        {%endif%}
+        {%if title != 'Enter'%}
+            <button class="ent_button" onclick="window.location.href='/enter'">Enter</button>
         {%endif%}
     </div>
     {% block content %}{% endblock %}

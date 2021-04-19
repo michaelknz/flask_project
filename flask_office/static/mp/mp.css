@@ -83,3 +83,18 @@ body{
 .dropdown-content a:hover {
     background-color: #ddd;
 }
+
+.ent_button {
+    margin: 0;
+    position: absolute;
+    left: 100%;
+    -ms-transform: translateX(-220%);
+    transform: translateX(-220%);
+    background-color: #ff6a00;
+    padding: 14px 40px;
+    font-size: 14px;
+    border-radius: 24px;
+    color: white;
+    text-decoration: none;
+    outline: none;
+}
