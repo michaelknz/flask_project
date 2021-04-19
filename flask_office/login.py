@@ -14,6 +14,8 @@ class Login:
                 return redirect(url_for('existing_login'))
             elif(db.session.query(User.id).filter_by(email=request.form['email']).first() is not None):
                 return redirect(url_for('existing_email'))
+            elif(request.form['password']!=request.form['cpassword']):
+                return redirect(url_for('different_passwords'))
             else:
                 user=User(request.form['login'],request.form['password'],request.form['email'])
                 db.session.add(user)

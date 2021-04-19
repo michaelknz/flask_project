@@ -22,6 +22,7 @@ app.add_url_rule('/login',view_func=login.RenderLogPage,methods = ['GET', 'POST'
 app.add_url_rule('/enter',view_func=enter.RenderEnterPage,methods=['GET', 'POST'])
 app.add_url_rule('/exist_login',view_func=error.existing_login)
 app.add_url_rule('/exist_email',view_func=error.existing_email)
+app.add_url_rule('/diff_pass',view_func=error.different_passwords)
 
 @app.route('/main_page')
 def main_page():
