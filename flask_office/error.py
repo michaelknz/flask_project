@@ -9,3 +9,7 @@ class Error:
         return render_template('error/existing_email.html')
     def different_passwords(self):
         return render_template('error/different_passwords.html')
+    def login_does_not_exist(self):
+        return render_template('error/login_not_exist.html')
+    def wrong_password(self):
+        return render_template('error/wrong_password.html')

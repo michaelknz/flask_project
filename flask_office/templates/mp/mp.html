@@ -20,11 +20,14 @@
                 <a href="#">Link 3</a>
             </div>
         </div>
-        {%if title != 'Sign In'%}
+        {%if title != 'Sign In' and not is_auth%}
             <button class="button" onclick="window.location.href='/login'">LogIn</button>
         {%endif%}
-        {%if title != 'Enter'%}
+        {%if title != 'Enter' and not is_auth%}
             <button class="ent_button" onclick="window.location.href='/enter'">Enter</button>
+        {%endif%}
+        {%if is_auth%}
+            <button class="prof"></button>
         {%endif%}
     </div>
     {% block content %}{% endblock %}

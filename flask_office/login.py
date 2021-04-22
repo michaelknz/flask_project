@@ -3,6 +3,7 @@ from forms import LoginForm
 from flask import render_template,request,flash,redirect,url_for
 from models import User
 from models import db
+import consts
 
 class Login:
     def __init__(self):
@@ -20,4 +21,5 @@ class Login:
                 user=User(request.form['login'],request.form['password'],request.form['email'])
                 db.session.add(user)
                 db.session.commit()
-        return render_template('login/login.html', title='Sign In', form=form)
+                return redirect(url_for('auth'))
+        return render_template('login/login.html', title='Sign In', is_auth=consts.is_auth, form=form)

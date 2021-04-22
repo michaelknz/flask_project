@@ -98,3 +98,14 @@ body{
     text-decoration: none;
     outline: none;
 }
+
+.prof {
+    position: absolute;
+    left: 100%;
+    -ms-transform: translateX(-120%);
+    transform: translate(-124%,4px);
+    background-image: url("img/prof_im.jpg");
+    background-size: 40px;
+    height: 40px;
+    width: 40px;
+}
