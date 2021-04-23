@@ -168,36 +168,46 @@ class Base_Test:
                 j+=1
             elif(self.text[i]=='\n'):
                 tmp=self.CheckBR(j)
-                if(len(tmp[0])==11 and is_right!=1):
+                if(tmp[2] and is_right!=1):
                     if(is_right!=2):
                         out+='</span>'
                     out+='<span class="right">'+tmp[0]
                     is_right=1
                     j=tmp[1]
-                elif(len(tmp[0])==11):
+                elif(tmp[2]):
                     out+=tmp[0]
                     is_right=1
                     j=tmp[1]
-                elif(len(tmp[0])!=11 and is_right!=0):
+                elif(not tmp[2] and is_right!=0):
                     if(is_right!=2):
                         out+='</span>'
                     out+='<span class="wrong">'+tmp[0]
                     is_right=0
                     j=tmp[1]
-                elif(len(tmp[0])!=11):
+                elif(not tmp[2]):
                     out+=tmp[0]
                     is_right=0
                     j=tmp[1]
             elif(self.text[i]!=self.ref_test[j] and is_right!=0):
                 if(is_right!=2):
                     out+='</span>'
-                out+='<span class="wrong">'+self.ref_test[j]
+                tmp=self.CheckBR(j)
+                if(tmp[2]):
+                    out+='<span class="wrong">'+tmp[0]
+                    j=tmp[1]
+                else:
+                    out+='<span class="wrong">'+self.ref_test[j]
+                    j+=1
                 is_right=0
-                j+=1
             elif(self.text[i]!=self.ref_test[j]):
-                out+=self.ref_test[j]
+                tmp=self.CheckBR(j)
+                if(tmp[2]):
+                    out+=tmp[0]
+                    j=tmp[1]
+                else:
+                    out+=self.ref_test[j]
+                    j+=1
                 is_right=0
-                j+=1
 
         if(is_right!=2):
             out+='</span>'
@@ -217,6 +227,6 @@ class Base_Test:
 
     def CheckBR(self,ind):
         if(self.ref_test[ind:ind+11:]=='&#8628;<br>'):
-            return(self.ref_test[ind:ind+11:],ind+11)
+            return(self.ref_test[ind:ind+11:],ind+11,True)
         else:
-            return (self.ref_test[ind],ind+1)
+            return (self.ref_test[ind:ind+11:],ind+11,False)
