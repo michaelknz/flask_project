@@ -9,17 +9,25 @@ class Base_Test:
         self.last_time=pygame.time.get_ticks()
         self.text=''
         self.ref_test=''
+        self.to_next_string='&#8628;<br>'
         self.key_table_lower=[]
         self.key_table_upper=[]
         self.key_dict=dict()
         self.KeyTable_StartUp()
         self.SetTexts()
         self.shift=False
+        self.time=0
+        self.mistakes=0
         self.start_time=500
         self.mid_time=100
+        self.is_first_key=False
 
     def SetTexts(self):
-        self.ref_test='Hello world!&#8628;<br>Great!'
+        self.ref_test1='Hello world!\nGreat!'
+        for i in self.ref_test1:
+            if(i=='\n'):
+                self.ref_test+=self.to_next_string
+            self.ref_test+=i
 
     def KeyTable_StartUp(self):
         for i in range(33,39):
@@ -70,6 +78,7 @@ class Base_Test:
     def UpdateTable(self):
         cur_time=pygame.time.get_ticks()
         del_time=cur_time-self.last_time
+        self.time+=del_time
         self.last_time=cur_time
         if(keyboard.is_pressed('shift')):
             self.shift=True
@@ -81,6 +90,7 @@ class Base_Test:
                 self.key_dict['backspace'][1]=True
                 self.key_dict['backspace'][2]=self.start_time
                 self.text=self.text[:len(self.text)-1:]
+                self.is_first_key=False
             else:
                 if(self.key_dict['backspace'][2]>0):
                     self.key_dict['backspace'][2]-=del_time
@@ -88,6 +98,7 @@ class Base_Test:
                     if(self.key_dict['backspace'][1]):
                         self.key_dict['backspace'][2]=self.mid_time
                         self.text=self.text[:len(self.text)-1:]
+                        self.is_first_key=False
         else:
             self.key_dict['backspace'][0]=False
             self.key_dict['backspace'][1]=False
@@ -98,6 +109,7 @@ class Base_Test:
                 self.key_dict['space'][1]=True
                 self.key_dict['space'][2]=self.start_time
                 self.text+=' '
+                self.is_first_key=True
             else:
                 if(self.key_dict['space'][2]>0):
                     self.key_dict['space'][2]-=del_time
@@ -105,6 +117,7 @@ class Base_Test:
                     if(self.key_dict['space'][1]):
                         self.key_dict['space'][2]=self.mid_time
                         self.text+=' '
+                        self.is_first_key=True
         else:
             self.key_dict['space'][0]=False
             self.key_dict['space'][1]=False
@@ -116,6 +129,7 @@ class Base_Test:
                 self.key_dict['enter'][1]=True
                 self.key_dict['enter'][2]=self.start_time
                 self.text+='\n'
+                self.is_first_key=True
             else:
                 if(self.key_dict['enter'][2]>0):
                     self.key_dict['enter'][2]-=del_time
@@ -123,6 +137,7 @@ class Base_Test:
                     if(self.key_dict['enter'][1]):
                         self.key_dict['enter'][2]=self.mid_time
                         self.text+='\n'
+                        self.is_first_key=True
         else:
             self.key_dict['enter'][0]=False
             self.key_dict['enter'][1]=False
@@ -139,6 +154,7 @@ class Base_Test:
                     self.key_dict[i][1]=True
                     self.key_dict[i][2]=self.start_time
                     self.text+=i
+                    self.is_first_key=True
                 else:
                     if(self.key_dict[i][2]>0):
                         self.key_dict[i][2]-=del_time
@@ -146,6 +162,7 @@ class Base_Test:
                         if(self.key_dict[i][1]):
                             self.key_dict[i][2]=self.mid_time
                         self.text+=i
+                        self.is_first_key=True
             else:
                 self.key_dict[i][0]=False
                 self.key_dict[i][1]=False
@@ -155,6 +172,9 @@ class Base_Test:
         out=''
         is_right=2
         j=0
+        out+='<span id="timer">Time: '+self.GetTimer()+'</span>'
+        out+='<span id="mistakes">Mistakes : '+str(self.mistakes)+'</span>'
+        out+='<div class="text_block">'
         for i in range(len(self.text)):
             if(self.text[i]==self.ref_test[j] and is_right!=1):
                 if(is_right!=2):
@@ -183,10 +203,16 @@ class Base_Test:
                         out+='</span>'
                     out+='<span class="wrong">'+tmp[0]
                     is_right=0
+                    if(self.is_first_key and i==len(self.text)-1):
+                        self.is_first_key=False
+                        self.mistakes+=1
                     j=tmp[1]
                 elif(not tmp[2]):
                     out+=tmp[0]
                     is_right=0
+                    if(self.is_first_key and i==len(self.text)-1):
+                        self.is_first_key=False
+                        self.mistakes+=1
                     j=tmp[1]
             elif(self.text[i]!=self.ref_test[j] and is_right!=0):
                 if(is_right!=2):
@@ -198,6 +224,9 @@ class Base_Test:
                 else:
                     out+='<span class="wrong">'+self.ref_test[j]
                     j+=1
+                if(self.is_first_key and i==len(self.text)-1):
+                    self.is_first_key=False
+                    self.mistakes+=1
                 is_right=0
             elif(self.text[i]!=self.ref_test[j]):
                 tmp=self.CheckBR(j)
@@ -207,6 +236,9 @@ class Base_Test:
                 else:
                     out+=self.ref_test[j]
                     j+=1
+                if(self.is_first_key and i==len(self.text)-1):
+                    self.is_first_key=False
+                    self.mistakes+=1
                 is_right=0
 
         if(is_right!=2):
@@ -215,6 +247,7 @@ class Base_Test:
         for i in range(j,len(self.ref_test)):
             out+=self.ref_test[i]
         out+='</span>'
+        out+='</div>'
         return out
 
 
@@ -230,3 +263,12 @@ class Base_Test:
             return(self.ref_test[ind:ind+11:],ind+11,True)
         else:
             return (self.ref_test[ind:ind+11:],ind+11,False)
+
+    def GetTimer(self):
+        m=str((self.time//1000)//60)
+        s=str((self.time//1000)%60)
+        if(len(m)==1):
+            m='0'+m
+        if(len(s)==1):
+            s='0'+s
+        return m+':'+s

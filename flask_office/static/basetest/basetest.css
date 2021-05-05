@@ -5,11 +5,11 @@ body
 
 .text_block {
     width: 50%;
-    height: 900px;
+    height: 700px;
     background-color:white;
     top: 50%;
     left: 50%;
-    transform: translate(50%, 5%);
+    transform: translate(50%, 15%);
 }
 
 .right{
@@ -24,4 +24,16 @@ body
 
 .none {
     color: black;
+}
+
+#timer {
+    position: absolute;
+    left: 30%;
+    top:10%;
+}
+
+#mistakes {
+    position: absolute;
+    left: 60%;
+    top: 10%;
 }

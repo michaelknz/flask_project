@@ -17,5 +17,6 @@ class Enter:
             if(request.form['password']!=User.query.get(user.id).password):
                 return redirect(url_for('wrong_password'))
             else:
-                return redirect(url_for('auth'))
+                consts.is_auth=True
+                return redirect(url_for('main_page'))
         return render_template('enter/enter.html', title='Enter', is_auth=consts.is_auth, form=form)

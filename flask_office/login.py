@@ -21,5 +21,6 @@ class Login:
                 user=User(request.form['login'],request.form['password'],request.form['email'])
                 db.session.add(user)
                 db.session.commit()
-                return redirect(url_for('auth'))
+                consts.is_auth=True
+                return redirect(url_for('main_page'))
         return render_template('login/login.html', title='Sign In', is_auth=consts.is_auth, form=form)
