@@ -1,0 +1,106 @@
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title>drop</title>
+        <script>
+
+function board(width, height) {
+    this.width = width;
+    this.height = height;
+    this.draw = function() {
+        context.fillStyle = "#000";
+        context.fillRect(0, 0, this.width, this.height);
+    };
+}
+function word(x, y, text,length) {
+    this.color = "#fff";
+    this.x = x;
+    this.y = y;
+    this.text = text;
+    this.length = length;
+    this.draw = function() {
+        context.fillStyle = this.color;
+        context.font = "italic 30pt Arial";
+        context.fillText(this.text, this.x, this.y, this.length);
+    };
+}
+
+function draw() {
+    board.draw();
+    ball.draw();
+}
+
+function update() {
+    if (ball.y>board.height) {
+        clearInterval(game);
+        gameover();
+    }
+    ball.y += ball.vY;
+
+}
+
+function play() {
+    draw();
+    update();
+}
+
+function typing(){
+
+    if (event.code == "Space"){
+
+        if (area.value == " "+ball.text){
+        alert("cool!");
+        }
+        else{
+        alert("try again")
+        }
+    area.value = ''
+    }
+
+    else{
+    area.value += key;
+    }
+
+}
+
+function init() {
+    board = new board(960, 540);
+
+    ball = new word(20, 20,"pizda");
+    ball.vY = 1;
+
+    canvas = document.getElementById("drop");
+    canvas.width = board.width;
+    canvas.height = board.height;
+    context = canvas.getContext("2d");
+
+    area.value = ' '
+    addEventListener("keydown", typing);
+
+    game = setInterval(play, 100);
+
+
+}
+
+function gameover(){
+    delete ball
+    board.draw()
+    ga = new word(board.width/2-100,board.height/2,"GAME OVER",250)
+    ga.draw()
+
+}
+        </script>
+    </head>
+    <body>
+        <canvas id="drop">wtf?!</canvas>
+        <textarea style="
+          width: 960px;
+          box-sizing: border-box;
+          display: block;"
+                  rows = "1"
+                  id="area"></textarea>
+
+        <script>init()</script>
+
+    </body>
+</html>

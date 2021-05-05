@@ -8,6 +8,8 @@ from error import Error
 from profile import Profile
 import consts
 
+from drop_base_test import Drop_Test
+
 app = Flask(__name__)
 app.config.from_object('config')
 app.debug=True
@@ -19,6 +21,8 @@ enter=Enter()
 error=Error()
 profile=Profile()
 
+DropTest = Drop_Test()
+app.add_url_rule('/drop', view_func=DropTest.Drop, methods=['GET', 'POST'])
 
 app.add_url_rule('/base_test',view_func=BaseTest.RenderBaseTestPage)
 app.add_url_rule('/text',view_func=BaseTest.SendData)
