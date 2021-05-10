@@ -28,6 +28,7 @@ function word(x, y, text,length) {
 function draw() {
     board.draw();
     ball.draw();
+
 }
 
 function update() {
@@ -42,29 +43,30 @@ function update() {
 function play() {
     draw();
     update();
+    console.log(keyLog)
 }
 
 function typing(){
+    document.onkeypress = (e)=>{
+        const k = e.key
+        keyLog += k
+    }
 
     if (event.code == "Space"){
 
-        if (area.value == " "+ball.text){
+        if (keyLog == ball.text){
         alert("cool!");
         }
         else{
         alert("try again")
         }
-    area.value = ''
-    }
-
-    else{
-    area.value += key;
+    keyLog = ""
     }
 
 }
 
 function init() {
-    board = new board(960, 540);
+    board = new board(window.innerWidth, window.innerHeight);
 
     ball = new word(20, 20,"pizda");
     ball.vY = 1;
@@ -74,7 +76,7 @@ function init() {
     canvas.height = board.height;
     context = canvas.getContext("2d");
 
-    area.value = ' '
+    keyLog = ""
     addEventListener("keydown", typing);
 
     game = setInterval(play, 100);
@@ -93,13 +95,6 @@ function gameover(){
     </head>
     <body>
         <canvas id="drop">wtf?!</canvas>
-        <textarea style="
-          width: 960px;
-          box-sizing: border-box;
-          display: block;"
-                  rows = "1"
-                  id="area"></textarea>
-
         <script>init()</script>
 
     </body>
