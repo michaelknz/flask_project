@@ -15,6 +15,7 @@ app.config.from_object('config')
 app.debug=True
 db.init_app(app)
 
+
 BaseTest=Base_Test()
 login=Login()
 enter=Enter()
@@ -34,6 +35,7 @@ app.add_url_rule('/diff_pass',view_func=error.different_passwords)
 app.add_url_rule('/login_does_not_exist',view_func=error.login_does_not_exist)
 app.add_url_rule('/wrong_password',view_func=error.wrong_password)
 app.add_url_rule('/profile',view_func=profile.Render_Profile)
+app.add_url_rule('/is_finished',view_func=BaseTest.GetFin)
 
 @app.route('/main_page')
 def main_page():

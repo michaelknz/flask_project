@@ -1,10 +1,15 @@
 import pygame
-from flask import Flask,render_template
+from models import User
+from flask import Flask,render_template,redirect,url_for
+from random import randint
+from models import db
 import keyboard
+import consts
 
 class Base_Test:
     def __init__(self):
         pygame.init()
+        self.SetMasText()
         self.cur_time=pygame.time.get_ticks()
         self.last_time=pygame.time.get_ticks()
         self.text=''
@@ -21,13 +26,16 @@ class Base_Test:
         self.start_time=500
         self.mid_time=100
         self.is_first_key=False
+        self.is_finish=False
 
     def SetTexts(self):
-        self.ref_test1='Hello world!\nGreat!'
+        self.ref_test1='Hello world!\nGreat'
+        self.ref_test=''
         for i in self.ref_test1:
             if(i=='\n'):
                 self.ref_test+=self.to_next_string
-            self.ref_test+=i
+            else:
+                self.ref_test+=i
 
     def KeyTable_StartUp(self):
         for i in range(33,39):
@@ -78,6 +86,9 @@ class Base_Test:
     def UpdateTable(self):
         cur_time=pygame.time.get_ticks()
         del_time=cur_time-self.last_time
+        if(del_time>=500):
+            del_time=0
+            self.SetStart()
         self.time+=del_time
         self.last_time=cur_time
         if(keyboard.is_pressed('shift')):
@@ -103,6 +114,23 @@ class Base_Test:
             self.key_dict['backspace'][0]=False
             self.key_dict['backspace'][1]=False
             self.key_dict['backspace'][2]=0
+        if(len(self.text)==len(self.ref_test1)):
+           b=self.CheckTexts()
+           if(b==False):
+               return
+           else:
+               if(consts.is_auth==False):
+                   self.is_finish=True
+                   return
+               if(int(consts.user.timeBT)>self.time or int(consts.user.timeBT)==-1):
+                   User.query.get(consts.user.id).timeBT=self.time
+                   User.query.get(consts.user.id).misstakesBT=self.mistakes
+               if(int(consts.user.misstakesBM)>self.mistakes or int(consts.user.timeBM)==-1):
+                   User.query.get(consts.user.id).timeBM=self.time
+                   User.query.get(consts.user.id).misstakesBM=self.mistakes
+               self.is_finish=True
+               db.session.commit()
+               return
         if(keyboard.is_pressed('space')):
             if(self.key_dict['space'][0]==False):
                 self.key_dict['space'][0]=True
@@ -272,3 +300,27 @@ class Base_Test:
         if(len(s)==1):
             s='0'+s
         return m+':'+s
+
+    def SetMasText(self):
+        self.mas_texts=[]
+        self.mas_texts.append('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam interdum augue ut est condimentum molestie. Fusce in felis in mi tempus\niaculis. Aliquam nec viverra nisi, nec tempor odio. Donec sagittis iaculis sapien eget elementum. Suspendisse est libero, vulputate eget\nturpis nec, accumsan tempus magna. Integer massa arcu, gravida eget massa a, malesuada molestie nibh. Phasellus sit amet sapien\nvestibulum, venenatis dui ac, faucibus sapien. Etiam vel nunc enim. Etiam id congue mi. Donec eu dictum risus. Curabitur nec massa\nsuscipit, facilisis urna sed, egestas neque. Suspendisse potenti. Proin vel enim ut ex efficitur cursus vitae sed erat. Duis libero mi,\nsollicitudin et mollis sed, condimentum at nunc.')
+        self.mas_texts.append('Aenean semper tortor tristique tortor ultrices, et pharetra tortor euismod. Mauris maximus eleifend ante. Sed sodales, felis at vestibulum\nporttitor, est est consectetur lacus, interdum malesuada nunc nunc in sem. Sed ante est, commodo at nunc a, cursus aliquam neque.\nNullam aliquam scelerisque magna, sed lobortis tellus tristique id. Sed eget sem metus. Vivamus sed turpis urna. Ut ante felis, sagittis ut\nscelerisque vitae, hendrerit in augue. Aliquam ac semper quam, vel iaculis velit. Fusce auctor lacinia purus non mollis. Donec hendrerit\nblandit mattis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Mauris eros nunc, ullamcorper in\nfringilla sed, congue sit amet odio. Maecenas ut ultricies lectus.')
+        self.mas_texts.append('Vestibulum dolor nunc, mollis ac scelerisque id, bibendum nec mi. Sed mollis rhoncus tellus, blandit bibendum urna dictum ac. Cras quis\nlectus blandit sem ultrices feugiat. Sed eget suscipit quam. Donec dictum molestie turpis, in dapibus augue posuere quis. Quisque porta\nporttitor diam, a varius purus sodales sit amet. Proin efficitur mollis diam vitae ultrices. Sed euismod malesuada auctor. Pellentesque\nconsectetur magna non justo placerat sagittis. Phasellus nec nisi et justo tristique finibus. Duis finibus purus vel facilisis blandit. Phasellus consequat molestie augue, egestas maximus ex. Duis accumsan orci vehicula dictum finibus. Curabitur bibendum metus at diam facilisis,\nvel posuere lorem volutpat. Aenean sit amet enim posuere, consectetur metus non, sollicitudin libero. Donec sed sodales nulla.')
+        self.mas_texts.append('Ut sodales mi sit amet pellentesque varius. Suspendisse eget nibh eget turpis rhoncus tempor ut eget ante. In hac habitasse platea\ndictumst. Aenean eleifend est felis, vitae consectetur orci convallis nec. Curabitur fermentum, orci a varius condimentum, erat odio\negestas diam, eget gravida leo orci non nisi. Maecenas venenatis neque elementum turpis pharetra congue. In id quam eget nibh efficitur\nplacerat. Nunc in justo accumsan, vulputate eros a, semper urna. Phasellus neque purus, rutrum in tortor at, lobortis posuere lectus. Sed\nornare pharetra velit, eu volutpat nunc aliquet in. Ut magna nunc, aliquam nec massa eget, maximus dictum augue. Praesent vel molestie\nmi. Vivamus laoreet justo nec feugiat imperdiet.')
+        self.mas_texts.append('In aliquet cursus aliquet. Cras risus mauris, imperdiet id diam eu, tincidunt pharetra leo. Sed blandit interdum dignissim. Donec vel massa\nsed velit pretium eleifend. Pellentesque auctor nunc auctor dui vestibulum volutpat. Ut porta sapien a lacus pellentesque posuere. Ut\ncursus pharetra tristique. Pellentesque at risus et dolor sodales sagittis. Cras ut feugiat nibh. Praesent at lectus porttitor, laoreet nisl nec,\nelementum purus. Donec erat purus, aliquet at sapien a, tristique congue augue. Ut at turpis arcu. Fusce sed orci pretium, scelerisque elit\neu, faucibus erat. Morbi feugiat eleifend sapien ac molestie.')
+
+    def SetStart(self):
+        self.text=''
+        self.SetTexts()
+        self.mistakes=0
+        self.time=0
+        self.is_finish=False
+
+    def CheckTexts(self):
+        for i in range(len(self.text)):
+            if(self.text[i]!=self.ref_test1[i]):
+                return False
+        return True
+
+    def GetFin(self):
+        return str(int(self.is_finish))

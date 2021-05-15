@@ -18,9 +18,12 @@ class Login:
             elif(request.form['password']!=request.form['cpassword']):
                 return redirect(url_for('different_passwords'))
             else:
-                user=User(request.form['login'],request.form['password'],request.form['email'])
+                user=User(request.form['login'],request.form['password'],request.form['email'],-1,-1,-1,-1)
                 db.session.add(user)
                 db.session.commit()
+                user=db.session.query(User.id).filter_by(nickname=request.form['login']).first()
+                user_tabel=User.query.get(user[0])
                 consts.is_auth=True
+                consts.user=user_tabel
                 return redirect(url_for('main_page'))
         return render_template('login/login.html', title='Sign In', is_auth=consts.is_auth, form=form)
