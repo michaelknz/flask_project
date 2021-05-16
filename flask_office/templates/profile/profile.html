@@ -2,11 +2,20 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <link rel="stylesheet" href="static/profile/profile.css">
     <meta charset="utf-8" />
     <title></title>
 </head>
 <body>
-    <div>Best Time:{{timeBT}} {{misstakesBT}}</div>
-    <div>Best Mistakes Score:{{timeBM}} {{misstakesBM}}</div>
+    <fieldset>
+        <legend>User Info</legend>
+        <div>Username: {{name}}</div>
+        <div>Email: {{email}}</div>
+    </fieldset>
+    <fieldset>
+        <legend>Best Results</legend>
+        <div class="results">Best Time: {{timeBT}}, {{misstakesBT}}</div>
+        <div class="results">Best Mistakes Score: {{timeBM}}, {{misstakesBM}}</div>
+    </fieldset>
 </body>
 </html>

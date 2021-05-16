@@ -1,0 +1,35 @@
+body
+{
+    background-color:darkslategrey;
+}
+
+.bord {
+    border-style: dashed;
+    border-color: orange;
+    position:absolute;
+    width:25%;
+    top:50%;
+    left: 37%;
+    transform: translate(5%, 50%);
+}
+
+.text {
+    top: 0%;
+    left: 0%;
+    transform: translate(40%, 0%);
+    color:red;
+}
+
+.back {
+    margin: 0;
+    position: absolute;
+    left: 47%;
+    top: 60%;
+    background-color: palevioletred;
+    padding: 14px 40px;
+    font-size: 14px;
+    border-radius: 24px;
+    color: white;
+    text-decoration: none;
+    outline: none;
+}

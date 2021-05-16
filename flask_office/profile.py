@@ -5,7 +5,7 @@ class Profile:
     def __init__(self):
         pass
     def Render_Profile(self):
-        return render_template('profile/profile.html',timeBT=self.Redo_timeBT(),misstakesBT=consts.user.misstakesBT,timeBM=self.Redo_timeBM(),misstakesBM=consts.user.misstakesBM)
+        return render_template('profile/profile.html',timeBT=self.Redo_timeBT(),misstakesBT=consts.user.misstakesBT,timeBM=self.Redo_timeBM(),misstakesBM=consts.user.misstakesBM,name=consts.user.nickname,email=consts.user.email)
 
     def Redo_timeBT(self):
         if(int(consts.user.timeBT)==-1):

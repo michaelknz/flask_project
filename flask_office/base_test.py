@@ -29,7 +29,7 @@ class Base_Test:
         self.is_finish=False
 
     def SetTexts(self):
-        self.ref_test1='Hello world!\nGreat'
+        self.ref_test1=self.mas_texts[randint(0,len(self.mas_texts)-1)]
         self.ref_test=''
         for i in self.ref_test1:
             if(i=='\n'):
