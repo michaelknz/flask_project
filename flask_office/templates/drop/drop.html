@@ -172,15 +172,19 @@ function paused(){
 
 removeEventListener("keydown", typing);
 addEventListener("keydown", paused);
-ga = new word(board.width/2-100,board.height/2,"PAUSED",250)
-ga.draw()
+p = new word(board.width/2-100,board.height/2,"PAUSED",250)
+l = new word(board.width/2-100,board.height/2+50,"Press 1 - Main page",250)
+p.draw()
+l.draw()
 document.onkeypress = (e)=>{
         const k = e.key
         if (k == "`"){
         removeEventListener("keydown", paused);
         addEventListener("keyup", typing);
         game = setInterval(play, 100);
-
+        }
+        if (k=="1"){
+        history.back()
         }
     }
 
@@ -191,6 +195,5 @@ document.onkeypress = (e)=>{
     <body>
         <canvas id="drop">wtf?!</canvas>
         <script>init()</script>
-
     </body>
 </html>
