@@ -68,7 +68,6 @@ function draw() {
 }
 
 function coloringWord(wrd){
-    console.log(keyLog,wrd.uncolored,keyLog[keyLog.length - 1],wrd.uncolored[0])
     if (keyLog[keyLog.length - 1] == wrd.uncolored[0]){
         wrd.colored += wrd.uncolored[0]
         wrd.uncolored = wrd.uncolored.slice(1)
@@ -83,6 +82,7 @@ function coloringWord(wrd){
 
 
 function play() {
+    console.log(wordList)
     draw();
     for (let i in wordList){
     wordList[i].update()
@@ -90,10 +90,14 @@ function play() {
 
     if (wordList.length == 0){
         if (bank){
+        speedArr = [1,2,3,4,5,6,7]
         for (let w = 0; w<6;w++){
             wordList.push(new word(randWordPos(), 20, bank[0]))
             bank.shift()
             }
+            keyLog = ""
+            nW = ""
+
 
         }
         if (!bank){
@@ -111,7 +115,7 @@ function typing(){
         paused()
         }
         if (k == "Backspace"){
-        keyLog = keyLog.slice(0,keylog.length-1)
+        keyLog = keyLog.slice(0,keyLog.length-1)
         }
 
         if (k != " "){
@@ -131,7 +135,6 @@ function typing(){
     keyLog = ""
     }
 
-    console.log(keyLog)
     if (keyLog){
         let w = []
         for (i in wordList){
