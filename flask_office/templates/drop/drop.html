@@ -7,11 +7,14 @@
 
 
 function randWordPos(){
-    return Math.floor(Math.random() * (window.innerWidth-30 - 0)) + 0;
+    return Math.floor(Math.random() * (window.innerWidth-360 - 0)) + 0;
 }
 
 function randWordSpeed(){
-    return Math.floor(Math.random() * (8 - 1)) + 1;
+    let tmp = Math.floor(Math.random() * (speedArr - 1)) + 1;
+    tpp = speedArr.splice(tmp,1)
+    return parseInt(tpp)
+
 }
 
 function wordInList(mas,val){
@@ -33,13 +36,17 @@ function word(x, y, text,length) {
     this.y = y;
     this.speed = randWordSpeed()
     this.text = text;
+    this.uncolored = text
     this.colored = ""
     this.length = length;
     this.draw = function() {
+        context.fillStyle = "blue";
+        context.font = "italic 30pt Arial";
+        context.fillText(this.colored, this.x, this.y+35, this.length);
+
         context.fillStyle = this.color;
         context.font = "italic 30pt Arial";
-        context.fillText(this.colored, this.x, this.y, this.length);
-        context.fillText(this.text, this.x, this.y, this.length);
+        context.fillText(this.uncolored, this.x, this.y, this.length);
 
     };
     this.update = function () {
@@ -60,6 +67,19 @@ function draw() {
 
 }
 
+function coloringWord(wrd){
+    console.log(keyLog,wrd.uncolored,keyLog[keyLog.length - 1],wrd.uncolored[0])
+    if (keyLog[keyLog.length - 1] == wrd.uncolored[0]){
+        wrd.colored += wrd.uncolored[0]
+        wrd.uncolored = wrd.uncolored.slice(1)
+    }
+
+    else{
+
+    keyLog = keyLog.slice(0,keyLog.length - 1)
+    }
+
+}
 
 
 function play() {
@@ -90,24 +110,44 @@ function typing(){
         clearInterval(game)
         paused()
         }
+        if (k == "Backspace"){
+        keyLog = keyLog.slice(0,keylog.length-1)
+        }
+
         if (k != " "){
         keyLog += k
         }
+
     }
-
+    keyLog.trim()
     if (event.code == "Space"){
-        keyLog.trim()
-        if (wordInList(wordList,keyLog)){
-        let w = []
-        for (i in wordList){
-        w.push(wordList[i].text)
-        }
-        wordList.splice(w.indexOf(keyLog),1)
+        if (keyLog == nW.text){
+        wordList.splice(wordList.indexOf(nW),1)
 
+        nW =""
         }
+    nW.colored = ""
+    nW.uncolored = nW.text
     keyLog = ""
     }
 
+    console.log(keyLog)
+    if (keyLog){
+        let w = []
+        for (i in wordList){
+            w.push(wordList[i].text)
+        }
+        for (i in w){
+            if (w[i].search(keyLog) != -1){
+                if (!nW){
+                    nW = wordList[i]
+                    break
+                }
+            }
+        }
+
+        coloringWord(nW)
+    }
 
 
 }
@@ -130,6 +170,9 @@ stupidWordBank = "Smile for the camera "+
     board = new board(window.innerWidth, window.innerHeight);
 
     bank = stupidWordBank.split(" ")
+    speedArr = [1,2,3,4,5,6,7]
+
+    nW = ""
 
     wordList = []
     for (let w = 0; w<6;w++){
