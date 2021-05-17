@@ -82,7 +82,7 @@ function coloringWord(wrd){
 
 
 function play() {
-    console.log(wordList)
+    console.log(nW,keyLog)
     draw();
     for (let i in wordList){
     wordList[i].update()
@@ -95,9 +95,6 @@ function play() {
             wordList.push(new word(randWordPos(), 20, bank[0]))
             bank.shift()
             }
-            keyLog = ""
-            nW = ""
-
 
         }
         if (!bank){
@@ -141,7 +138,7 @@ function typing(){
             w.push(wordList[i].text)
         }
         for (i in w){
-            if (w[i].search(keyLog) != -1){
+            if (w[i][0] == keyLog[0]){
                 if (!nW){
                     nW = wordList[i]
                     break
