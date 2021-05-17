@@ -6,6 +6,7 @@ from login import Login
 from enter import Enter
 from error import Error
 from profile import Profile
+from disauth import Disauth
 import consts
 
 from drop_base_test import Drop_Test
@@ -21,6 +22,7 @@ login=Login()
 enter=Enter()
 error=Error()
 profile=Profile()
+disau=Disauth()
 
 DropTest = Drop_Test()
 app.add_url_rule('/drop', view_func=DropTest.Drop, methods=['GET', 'POST'])
@@ -36,6 +38,7 @@ app.add_url_rule('/login_does_not_exist',view_func=error.login_does_not_exist)
 app.add_url_rule('/wrong_password',view_func=error.wrong_password)
 app.add_url_rule('/profile',view_func=profile.Render_Profile)
 app.add_url_rule('/is_finished',view_func=BaseTest.GetFin)
+app.add_url_rule('/disauth',view_func=disau.RenderDisauth)
 
 @app.route('/main_page')
 def main_page():

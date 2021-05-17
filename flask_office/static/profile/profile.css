@@ -6,3 +6,31 @@ body
 .results{
     left:-100%;
 }
+
+.disauth {
+    margin: 0;
+    position: absolute;
+    left: 90%;
+    top: 90%;
+    background-color: brown;
+    padding: 14px 40px;
+    font-size: 14px;
+    border-radius: 24px;
+    color: white;
+    text-decoration: none;
+    outline: none;
+}
+
+.main_to {
+    margin: 0;
+    position: absolute;
+    left: 80%;
+    top: 90%;
+    background-color: brown;
+    padding: 14px 40px;
+    font-size: 14px;
+    border-radius: 24px;
+    color: white;
+    text-decoration: none;
+    outline: none;
+}

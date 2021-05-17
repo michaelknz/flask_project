@@ -20,15 +20,33 @@
             </div>
         </div>
         {%if title != 'Sign In' and not is_auth%}
-            <button class="button" onclick="window.location.href='/login'">LogIn</button>
+        <button class="button" onclick="window.location.href='/login'">LogIn</button>
         {%endif%}
         {%if title != 'Enter' and not is_auth%}
-            <button class="ent_button" onclick="window.location.href='/enter'">Enter</button>
+        <button class="ent_button" onclick="window.location.href='/enter'">Enter</button>
         {%endif%}
         {%if is_auth%}
-            <button class="prof" onclick="window.location.href='/profile'"></button>
+        <button class="prof" onclick="window.location.href='/profile'"></button>
         {%endif%}
     </div>
+    {%if title == 'main_page'%}
+    <div class="main_text">
+        <div class="Title">
+            <p>SPEED TYPER</p>
+        </div>
+        <div class="info">
+            <p>Hello! This is our typing test. There you can test and improve your typing speed. Here is two different mods for you to choose. First is basic typing test that counts your time and misstakes and writes it to your accaunt:</p>
+            <div class="image">
+                <p><img src="static/mp/img/scr1.jpg" width="50%" height="50%" div style="left: 10%" alt="Письма мастера дзен"></p>
+            </div>
+            <p>And this is our game where you can tran your fast typing in game form:</p>
+            <div class="image">
+                <p><img src="static/mp/img/scr2.jpg" width="50%" height="50%" div style="left: 10%" alt="Письма мастера дзен"></p>
+            </div>
+            <p>Learn and have fun! Good luck!</p>
+        </div>
+    </div>
+    {%endif%}
     {% block content %}{% endblock %}
 </body>
 </html>

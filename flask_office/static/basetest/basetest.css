@@ -4,12 +4,12 @@ body
 }
 
 .text_block {
+    position: absolute;
     width: 50%;
-    height: 700px;
+    height: 70%;
     background-color:white;
-    top: 50%;
-    left: 50%;
-    transform: translate(50%, 15%);
+    top: 15%;
+    left: 25%;
 }
 
 .right{
@@ -36,4 +36,18 @@ body
     position: absolute;
     left: 60%;
     top: 10%;
+}
+
+.back_button {
+    margin: 0;
+    position: absolute;
+    left: 90%;
+    top: 90%;
+    background-color: brown;
+    padding: 14px 40px;
+    font-size: 14px;
+    border-radius: 24px;
+    color: white;
+    text-decoration: none;
+    outline: none;
 }

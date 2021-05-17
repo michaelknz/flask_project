@@ -109,3 +109,20 @@ body{
     height: 40px;
     width: 40px;
 }
+
+.main_text {
+    position: absolute;
+    left: 25%;
+    top: 10%;
+    width: 50%;
+    background-color: antiquewhite;
+}
+
+.Title {
+    font-size: larger;
+    transform: translate(40%, 0%);
+}
+
+.image {
+    transform: translate(25%, 0%);
+}
